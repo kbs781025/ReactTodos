@@ -1,16 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import TodoItem, { TodoType } from "./TodoItem";
 
 interface TodoListProps {
   todos: TodoType[];
+  toggleTodo: (selectedTodo: TodoType) => void;
 }
 
-function TodoList({ todos }: TodoListProps) {
+function TodoList({ todos, toggleTodo }: TodoListProps) {
   return (
     <div>
       <ul>
         {todos.map((todo) => (
-          <TodoItem todo={todo} />
+          <TodoItem key={todo.content} todo={todo} toggleTodo={toggleTodo} />
         ))}
       </ul>
     </div>

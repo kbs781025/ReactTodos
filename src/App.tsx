@@ -1,25 +1,41 @@
-import React from "react";
+import React, { useState } from "react";
 import TodoList from "./components/TodoList";
 import EnterTodoForm from "./components/EnterTodoForm";
+import { TodoType } from "./components/TodoItem";
 
 let todos = [
   {
-    id: 0,
     content: "Write Typescript",
     done: false,
   },
   {
-    id: 1,
     content: "Sleep until dead",
     done: true,
   },
 ];
 
 function App() {
+  const [todoList, setTodos] = useState<TodoType[]>(todos);
+
+  const toggleTodo = (selectedTodo: TodoType) => {
+    const newTodos = todoList.map((todo) => {
+      if (todo === selectedTodo) {
+        return { ...todo, done: !todo.done };
+      }
+      return todo;
+    });
+
+    setTodos(newTodos);
+  };
+
+  const addNewTodo = (content: string) => {
+    setTodos([...todoList, { content, done: false }]);
+  };
+
   return (
     <div className="App">
-      <TodoList todos={todos} />
-      <EnterTodoForm />
+      <TodoList todos={todoList} toggleTodo={toggleTodo} />
+      <EnterTodoForm addNewTodo={addNewTodo} />
     </div>
   );
 }

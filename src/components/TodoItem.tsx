@@ -1,20 +1,24 @@
-import React, { useState } from "react";
+import React from "react";
 
 export interface TodoType {
-  id: number;
   content: string;
   done: boolean;
 }
 
 interface TodoItemProps {
   todo: TodoType;
+  toggleTodo: (selectedTodo: TodoType) => void;
 }
 
-function TodoItem({ todo }: TodoItemProps) {
+function TodoItem({ todo, toggleTodo }: TodoItemProps) {
   return (
     <li>
       <label>
-        <input type="checkbox" checked={todo.done}></input>
+        <input
+          type="checkbox"
+          checked={todo.done}
+          onChange={() => toggleTodo(todo)}
+        ></input>
         {todo.content}
       </label>
     </li>
