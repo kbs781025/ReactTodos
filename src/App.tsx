@@ -1,24 +1,25 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import TodoList from "./components/TodoList";
+import EnterTodoForm from "./components/EnterTodoForm";
+
+let todos = [
+  {
+    id: 0,
+    content: "Write Typescript",
+    done: false,
+  },
+  {
+    id: 1,
+    content: "Sleep until dead",
+    done: true,
+  },
+];
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <TodoList todos={todos} />
+      <EnterTodoForm />
     </div>
   );
 }
