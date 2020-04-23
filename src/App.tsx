@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import TodoList from "./components/TodoList";
 import EnterTodoForm from "./components/EnterTodoForm";
 import { TodoType } from "./components/TodoItem";
+import Calendar from "./components/Calendar";
 
 let todos = [
   {
@@ -36,6 +37,7 @@ function App() {
     <div className="App">
       <TodoList todos={todoList} toggleTodo={toggleTodo} />
       <EnterTodoForm addNewTodo={addNewTodo} />
+      <Calendar />
     </div>
   );
 }
