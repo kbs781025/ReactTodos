@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 
+interface ICalendarProps {
+  calendarHidden: boolean;
+}
+
 interface IDateProps {
   isToday: boolean;
   isSelected: boolean;
 }
 
 const Frame = styled.div`
+  visibility: ${(props: ICalendarProps) =>
+    props.calendarHidden ? "visible;" : "hidden;"}
   width: 300px;
   border: 1px solid lightgrey;
   box-shadow: 2px 2px 2px #eee;
@@ -81,17 +87,7 @@ function converTo2dArray(numArray: number[], startDay: number) {
   return secondArray;
 }
 
-function getRows(days: number[][]) {
-  return days.map((dayRow) => (
-    <tr>
-      {dayRow.map((day) => (
-        <td>{day > 0 ? day : " "}</td>
-      ))}
-    </tr>
-  ));
-}
-
-function Calendar() {
+function Calendar({ calendarHidden }: ICalendarProps) {
   const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const DAYS_OF_WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
@@ -131,7 +127,7 @@ function Calendar() {
   );
 
   return (
-    <Frame>
+    <Frame calendarHidden={calendarHidden}>
       <Header>
         <Button
           onClick={() => setDate(new Date(year, month - 1, today.getDate()))}

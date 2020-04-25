@@ -17,6 +17,7 @@ let todos = [
 
 function App() {
   const [todoList, setTodos] = useState<TodoType[]>(todos);
+  const [calendarHidden, toggleCalendar] = useState(false);
 
   const toggleTodo = (selectedTodo: TodoType) => {
     const newTodos = todoList.map((todo) => {
@@ -36,8 +37,12 @@ function App() {
   return (
     <div className="App">
       <TodoList todos={todoList} toggleTodo={toggleTodo} />
-      <EnterTodoForm addNewTodo={addNewTodo} />
-      <Calendar />
+      <EnterTodoForm
+        addNewTodo={addNewTodo}
+        calendarHidden={calendarHidden}
+        toggleCalendar={toggleCalendar}
+      />
+      <Calendar calendarHidden={calendarHidden} />
     </div>
   );
 }

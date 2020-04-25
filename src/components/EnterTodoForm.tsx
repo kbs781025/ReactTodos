@@ -2,9 +2,15 @@ import React, { useState } from "react";
 
 interface EnterTodoFormProps {
   addNewTodo: (content: string) => void;
+  calendarHidden: boolean;
+  toggleCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function EnterTodoForm({ addNewTodo }: EnterTodoFormProps) {
+function EnterTodoForm({
+  addNewTodo,
+  calendarHidden,
+  toggleCalendar,
+}: EnterTodoFormProps) {
   const [inputValue, setInputValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -13,7 +19,10 @@ function EnterTodoForm({ addNewTodo }: EnterTodoFormProps) {
 
   const handleSubmit = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    addNewTodo(inputValue);
+    if (inputValue) {
+      addNewTodo(inputValue);
+    }
+    toggleCalendar(!calendarHidden);
     setInputValue("");
   };
 

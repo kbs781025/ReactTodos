@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import TodoItem, { TodoType } from "./TodoItem";
 
 interface TodoListProps {
