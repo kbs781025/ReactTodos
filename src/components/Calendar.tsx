@@ -14,12 +14,16 @@ function converTo2dArray(numArray: number[], startDay: number) {
   }
 
   let secondArray: number[][] = [];
-  for (let i = 0; ; ++i) {
+  let numberOfRows =
+    numArray.length % 7 === 0
+      ? Math.floor(numArray.length / 7)
+      : Math.floor(numArray.length / 7) + 1;
+
+  for (let i = 0; i < numberOfRows; ++i) {
     secondArray.push(Array<number>(7));
     for (let j = 0; j < 7; ++j) {
       secondArray[i][j] = numArray[i * 7 + j];
     }
-    if (i >= 7) break;
   }
   return secondArray;
 }
