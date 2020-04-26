@@ -2,6 +2,7 @@ import React from "react";
 
 export interface TodoType {
   content: string;
+  dueDate: Date;
   done: boolean;
 }
 
