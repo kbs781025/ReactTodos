@@ -2,6 +2,13 @@ import React, { useState, useEffect } from "react";
 import styled, { css } from "styled-components";
 
 interface ICalendarProps {
+  dateSetter: React.Dispatch<React.SetStateAction<Date>>;
+  calendarHidden: boolean;
+  timeSetterHidden: boolean;
+  toggleTimeSetter: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+interface IFrameProps {
   calendarHidden: boolean;
 }
 
@@ -11,10 +18,10 @@ interface IDateProps {
 }
 
 const Frame = styled.div`
-  visibility: ${(props: ICalendarProps) =>
-    props.calendarHidden ? "visible;" : "hidden;"}
-  width: 300px;
-  border: 1px solid lightgrey;
+  visibility: ${(props: IFrameProps) =>
+    props.calendarHidden ? "hidden;" : "visible;"}
+    width: 300px;
+    border: 1px solid lightgrey;
   box-shadow: 2px 2px 2px #eee;
 `;
 
@@ -87,34 +94,40 @@ function converTo2dArray(numArray: number[], startDay: number) {
   return secondArray;
 }
 
-function Calendar({ calendarHidden }: ICalendarProps) {
+export const MONTHS = [
+  "JAN",
+  "FEB",
+  "MAR",
+  "APR",
+  "MAY",
+  "JUN",
+  "JUL",
+  "AUG",
+  "SEP",
+  "OCT",
+  "NOV",
+  "DEC",
+];
+
+function Calendar({
+  dateSetter,
+  calendarHidden,
+  timeSetterHidden,
+  toggleTimeSetter,
+}: ICalendarProps) {
   const DAYS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const DAYS_LEAP = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const DAYS_OF_WEEK = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-  const MONTHS = [
-    "JAN",
-    "FEB",
-    "MAR",
-    "APR",
-    "MAY",
-    "JUN",
-    "JUL",
-    "AUG",
-    "SEP",
-    "OCT",
-    "NOV",
-    "DEC",
-  ];
 
   const today = new Date();
   const [date, setDate] = useState(today);
-  const [selectedDate, setselectedDate] = useState(today.getDay());
+  const [selectedDate, setSelectedDate] = useState(today.getDay());
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const [startDay, setStartDay] = useState(getStartDay(today));
 
   useEffect(() => {
-    setselectedDate(date.getDate());
+    setSelectedDate(date.getDate());
     setMonth(date.getMonth());
     setYear(date.getFullYear());
     setStartDay(getStartDay(date));
@@ -125,6 +138,13 @@ function Calendar({ calendarHidden }: ICalendarProps) {
     Array(days[month] + startDay),
     startDay
   );
+
+  const handleCellClick = (e: React.MouseEvent<HTMLTableCellElement>) => {
+    const parsedInput = parseInt(e.currentTarget.innerText);
+    setSelectedDate(parsedInput);
+    dateSetter(new Date(year, month, parsedInput));
+    toggleTimeSetter(!timeSetterHidden);
+  };
 
   return (
     <Frame calendarHidden={calendarHidden}>
@@ -152,9 +172,7 @@ function Calendar({ calendarHidden }: ICalendarProps) {
             <tr>
               {_dayRow.map((_day) => (
                 <Cell
-                  onClick={() => {
-                    setselectedDate(_day);
-                  }}
+                  onClick={handleCellClick}
                   isToday={_day === today.getDate()}
                   isSelected={_day === selectedDate}
                 >
