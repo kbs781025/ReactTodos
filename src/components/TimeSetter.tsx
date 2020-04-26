@@ -1,7 +1,23 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
+interface ITimeSetterProps {
+  selectedDueDate: Date;
+  calendarHidden: boolean;
+  toggleCalendar: React.Dispatch<React.SetStateAction<boolean>>;
+  timeSetterHidden: boolean;
+  toggleTimeSetter: React.Dispatch<React.SetStateAction<boolean>>;
+  todoContent: string;
+  addeNewTodo: (content: string, dueDate: Date) => void;
+}
+
+interface IFrameProps {
+  timeSetterHidden: boolean;
+}
+
 const Frame = styled.div`
+  visibility: ${(props: IFrameProps) =>
+    props.timeSetterHidden ? "hidden;" : "vibislb;"}
   display: flex;
 `;
 
@@ -19,11 +35,15 @@ const InputButtons = styled.div`
   margin-left: 5px;
 `;
 
-interface ITimeSetterProps {
-  dateSetter: React.Dispatch<React.SetStateAction<Date>>;
-}
-
-function TimeSetter({ dateSetter }: ITimeSetterProps) {
+function TimeSetter({
+  selectedDueDate,
+  calendarHidden,
+  toggleCalendar,
+  timeSetterHidden,
+  toggleTimeSetter,
+  todoContent,
+  addeNewTodo,
+}: ITimeSetterProps) {
   const [isAm, setAm] = useState(false);
   const [hours, setHours] = useState(0);
   const [minutes, setMinutes] = useState(0);
@@ -67,21 +87,23 @@ function TimeSetter({ dateSetter }: ITimeSetterProps) {
 
   const handleOk = (e: React.FormEvent<HTMLInputElement>) => {
     e.preventDefault();
-    const date = new Date();
-    dateSetter(
-      new Date(
-        date.getFullYear(),
-        date.getMonth(),
-        date.getDate(),
+    if (hours > 0 || minutes > 0) {
+      const date = new Date(
+        selectedDueDate.getFullYear(),
+        selectedDueDate.getMonth(),
+        selectedDueDate.getDate(),
         isAm ? hours : hours + 12,
         minutes
-      )
-    );
+      );
+      toggleCalendar(!calendarHidden);
+      toggleTimeSetter(!timeSetterHidden);
+      addeNewTodo(todoContent, date);
+    }
   };
 
   return (
     <div>
-      <Frame>
+      <Frame timeSetterHidden={timeSetterHidden}>
         <select onChange={handleAmChange}>
           <option value="AM">AM</option>
           <option value="PM">PM</option>
@@ -94,7 +116,7 @@ function TimeSetter({ dateSetter }: ITimeSetterProps) {
           onChange={handleMinutes}
         ></InputBox>
         <InputButtons>
-          <input type="submit" value="Ok" onSubmit={handleOk}></input>
+          <input type="submit" value="Ok" onClick={handleOk}></input>
           <input type="submit" value="Cancle"></input>
         </InputButtons>
       </Frame>
