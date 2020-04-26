@@ -20,7 +20,9 @@ let todos: TodoType[] = [
 
 function App() {
   const [todoList, setTodos] = useState<TodoType[]>(todos);
-  const [calendarHidden, toggleCalendar] = useState(false);
+  const [calendarHidden, toggleCalendar] = useState(true);
+  const [timeSetterHidden, toggleTimeSetter] = useState(true);
+  const [todoContent, contentSetter] = useState("");
   const [selectedDueDate, setDueDate] = useState(new Date());
 
   const toggleTodo = (selectedTodo: TodoType) => {
@@ -42,12 +44,25 @@ function App() {
     <div className="App">
       <TodoList todos={todoList} toggleTodo={toggleTodo} />
       <EnterTodoForm
-        addNewTodo={addNewTodo}
+        contentSetter={contentSetter}
         calendarHidden={calendarHidden}
         toggleCalendar={toggleCalendar}
       />
-      <Calendar calendarHidden={calendarHidden} />
-      <TimeSetter dateSetter={setDueDate} />
+      <Calendar
+        dateSetter={setDueDate}
+        calendarHidden={calendarHidden}
+        timeSetterHidden={timeSetterHidden}
+        toggleTimeSetter={toggleTimeSetter}
+      />
+      <TimeSetter
+        selectedDueDate={selectedDueDate}
+        calendarHidden={calendarHidden}
+        toggleCalendar={toggleCalendar}
+        timeSetterHidden={timeSetterHidden}
+        toggleTimeSetter={toggleTimeSetter}
+        todoContent={todoContent}
+        addeNewTodo={addNewTodo}
+      />
     </div>
   );
 }
