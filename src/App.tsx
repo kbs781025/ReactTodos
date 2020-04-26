@@ -3,14 +3,17 @@ import TodoList from "./components/TodoList";
 import EnterTodoForm from "./components/EnterTodoForm";
 import { TodoType } from "./components/TodoItem";
 import Calendar from "./components/Calendar";
+import TimeSetter from "./components/TimeSetter";
 
-let todos = [
+let todos: TodoType[] = [
   {
     content: "Write Typescript",
+    dueDate: new Date(),
     done: false,
   },
   {
     content: "Sleep until dead",
+    dueDate: new Date(),
     done: true,
   },
 ];
@@ -18,6 +21,7 @@ let todos = [
 function App() {
   const [todoList, setTodos] = useState<TodoType[]>(todos);
   const [calendarHidden, toggleCalendar] = useState(false);
+  const [selectedDueDate, setDueDate] = useState(new Date());
 
   const toggleTodo = (selectedTodo: TodoType) => {
     const newTodos = todoList.map((todo) => {
@@ -30,8 +34,8 @@ function App() {
     setTodos(newTodos);
   };
 
-  const addNewTodo = (content: string) => {
-    setTodos([...todoList, { content, done: false }]);
+  const addNewTodo = (content: string, dueDate: Date) => {
+    setTodos([...todoList, { content, dueDate, done: false }]);
   };
 
   return (
@@ -43,6 +47,7 @@ function App() {
         toggleCalendar={toggleCalendar}
       />
       <Calendar calendarHidden={calendarHidden} />
+      <TimeSetter dateSetter={setDueDate} />
     </div>
   );
 }
