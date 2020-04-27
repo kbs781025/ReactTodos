@@ -23,7 +23,7 @@ interface TodoListState {
 }
 
 const initialState: TodoListState = {
-  TodoList: [{ id: 0, content: "", done: false, dueDate: new Date() }],
+  TodoList: [{ id: 0, content: "Redux", done: false, dueDate: new Date() }],
 };
 
 function todoState(state: TodoListState = initialState, action: TodoAction) {
