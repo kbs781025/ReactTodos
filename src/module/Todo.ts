@@ -1,8 +1,10 @@
 const ADD = "todo/ADD" as const;
 const REMOVE = "todo/REMOVE" as const;
+const TOGGLE = "todo/TOGGLE" as const;
 
 export const addTodo = (content: string) => ({ type: ADD, payload: content });
 export const removeTodo = (id: number) => ({ type: REMOVE, payload: id });
+export const toggleTodo = (id: number) => ({ type: TOGGLE, payload: id });
 
 export type TodoAction =
   | ReturnType<typeof addTodo>
@@ -14,11 +16,13 @@ interface TodoType {
   dueDate: Date;
 }
 
-type TodoListState = TodoType[];
+interface TodoListState {
+  TodoList: TodoType[];
+}
 
-const initialState: TodoListState = [
-  { id: 0, content: "", dueDate: new Date() },
-];
+const initialState: TodoListState = {
+  TodoList: [{ id: 0, content: "", dueDate: new Date() }],
+};
 
 function todoState(state: TodoListState = initialState, action: TodoAction) {
   switch (action.type) {
@@ -28,9 +32,11 @@ function todoState(state: TodoListState = initialState, action: TodoAction) {
         content: action.payload,
         dueDate: new Date(),
       };
-      return [...state, newTodo];
+      return { TodoList: [...state.TodoList, newTodo] };
     case REMOVE:
-      return state.filter((todo) => todo.id !== action.payload);
+      return {
+        TodoList: state.TodoList.filter((todo) => todo.id !== action.payload),
+      };
     default:
       return state;
   }
