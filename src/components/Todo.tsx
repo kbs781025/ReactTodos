@@ -1,24 +1,16 @@
 import React from "react";
-
-interface TodoType {
-  content: string;
-  dueDate: Date;
-  done: boolean;
-}
+import { TodoType } from "../module/Todo";
 
 interface TodoProps {
   todo: TodoType;
-  onToggle: () => void;
-  getDueDate: (date: Date) => string;
+  onToggle: (e: React.MouseEvent<HTMLElement>) => void;
 }
 
-function Todo({ todo, onToggle, getDueDate }: TodoProps) {
+function Todo({ todo, onToggle }: TodoProps) {
   return (
-    <li>
-      <input type="checkbox" checked={todo.done} onChange={onToggle}></input>
+    <li key={todo.id.toString()} id={todo.id.toString()}>
+      <input type="checkbox" checked={todo.done} onClick={onToggle}></input>
       <span>{todo.content}</span>
-      <span> </span>
-      <span>{getDueDate(todo.dueDate)}</span>
     </li>
   );
 }
