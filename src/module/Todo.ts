@@ -11,7 +11,7 @@ export type TodoAction =
   | ReturnType<typeof removeTodo>
   | ReturnType<typeof toggleTodo>;
 
-interface TodoType {
+export interface TodoType {
   id: number;
   content: string;
   done: boolean;
