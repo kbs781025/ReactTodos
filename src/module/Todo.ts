@@ -8,15 +8,19 @@ export type TodoAction =
   | ReturnType<typeof addTodo>
   | ReturnType<typeof removeTodo>;
 
-export type TodoState = {
+interface TodoType {
   id: number;
   content: string;
   dueDate: Date;
-}[];
+}
 
-const initialState: TodoState = [{ id: 0, content: "", dueDate: new Date() }];
+type TodoListState = TodoType[];
 
-function todoState(state: TodoState = initialState, action: TodoAction) {
+const initialState: TodoListState = [
+  { id: 0, content: "", dueDate: new Date() },
+];
+
+function todoState(state: TodoListState = initialState, action: TodoAction) {
   switch (action.type) {
     case ADD:
       const newTodo = {
