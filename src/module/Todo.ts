@@ -8,11 +8,13 @@ export const toggleTodo = (id: number) => ({ type: TOGGLE, payload: id });
 
 export type TodoAction =
   | ReturnType<typeof addTodo>
-  | ReturnType<typeof removeTodo>;
+  | ReturnType<typeof removeTodo>
+  | ReturnType<typeof toggleTodo>;
 
 interface TodoType {
   id: number;
   content: string;
+  done: boolean;
   dueDate: Date;
 }
 
@@ -21,7 +23,7 @@ interface TodoListState {
 }
 
 const initialState: TodoListState = {
-  TodoList: [{ id: 0, content: "", dueDate: new Date() }],
+  TodoList: [{ id: 0, content: "", done: false, dueDate: new Date() }],
 };
 
 function todoState(state: TodoListState = initialState, action: TodoAction) {
@@ -36,6 +38,14 @@ function todoState(state: TodoListState = initialState, action: TodoAction) {
     case REMOVE:
       return {
         TodoList: state.TodoList.filter((todo) => todo.id !== action.payload),
+      };
+    case TOGGLE:
+      return {
+        TodoList: state.TodoList.map((todo) =>
+          todo.id === action.payload
+            ? { ...todo, done: !todo.done }
+            : { ...todo }
+        ),
       };
     default:
       return state;
