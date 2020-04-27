@@ -32,6 +32,7 @@ function todoState(state: TodoListState = initialState, action: TodoAction) {
       const newTodo = {
         id: Date.now(),
         content: action.payload,
+        done: false,
         dueDate: new Date(),
       };
       return { TodoList: [...state.TodoList, newTodo] };
