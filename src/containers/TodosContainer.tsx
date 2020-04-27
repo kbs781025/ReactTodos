@@ -9,7 +9,7 @@ function TodosContainer() {
   const todoList = useSelector((state: RootState) => state.todoState.TodoList);
   const dispatch = useDispatch();
 
-  const onToggle = (e: React.MouseEvent<HTMLElement>) => {
+  const onToggle = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.currentTarget.parentElement) {
       const id = parseInt(e.currentTarget.parentElement.id);
       dispatch(toggleTodo(id));
